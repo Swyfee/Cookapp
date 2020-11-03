@@ -44,6 +44,7 @@
 <script>
   import {fireDb} from '~/plugins/firebase.js'
   export default {
+
     data() {
   return {
     writeSuccessful: false,
