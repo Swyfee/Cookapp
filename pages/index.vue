@@ -11,7 +11,9 @@
         </button>
       </div>
     </div>
-    <div>
+
+
+  <div>
   <h2>
     Read from Firestore.
   </h2>
@@ -22,6 +24,20 @@
     </button>
     <p>{{text}}</p>
   </div>
+  </div>
+
+
+  <div>
+  <h2>
+    Delete from Firestore.
+  </h2>
+  <div>
+    <button @click="deleteFromFirestore" :disabled="deleteSuccessful">
+      <span v-if="!deleteSuccessful">Delete now</span>
+      <span v-else>Successful!</span>
+    </button>
+  </div>
+
 </div>
 </section>
 </template>
@@ -32,12 +48,13 @@
   return {
     writeSuccessful: false,
     readSuccessful: false,
+    deleteSuccessful: false,
     text: ""
   }
 },
     methods: {
-      async readFromFirestore() {
-  const ref = fireDb.collection("test").doc("test")
+  async readFromFirestore() {
+  const ref = fireDb.collection('receipe')
   let snap
   try {
     snap = await ref.get()
@@ -50,9 +67,9 @@
   },
 
       async writeToFirestore() {
-        const ref = fireDb.collection("test").doc("test")
+        const ref = fireDb.collection("receipe").doc("canarde")
         const document = {
-          text: "This is a test message."
+          text: "Il faut une canarde"
         }
         try {
           await ref.set(document)
@@ -61,6 +78,16 @@
           console.error(e)
         }
         this.writeSuccessful = true
+      },
+
+      async deleteFromFirestore(){
+        const ref = fireDb.collection("receipe").doc('canard')
+        try {
+          await ref.delete(document)
+        } catch (e) {
+          console.error(e)
+        }
+        this.deleteSuccessful = true
       }
     }
   }
