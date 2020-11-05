@@ -1,11 +1,46 @@
 <template>
   <section class="container">
+
+<v-form
+   ref="form"
+   lazy-validation
+ >
+      <v-text-field
+        v-model="title"
+        required
+        label="Title"
+        type="text"
+        outlined
+      />
+      <v-text-field
+        v-model="description"
+        required
+        label="Description"
+        type="text"
+        outlined
+      />
+      <v-text-field
+        v-model="ingredient"
+        required
+        label="Ingredient"
+        type="text"
+        outlined
+      />
+      <v-text-field
+        v-model="step"
+        required
+        label="Step"
+        type="text"
+        outlined
+      /></v-form>
+<h1> title is {{title}} </h1>
+
 <div>
       <h2>
         Write to Firestore.
       </h2>
       <div>
-        <button @click="writeToFirestore" :disabled="writeSuccessful">
+        <button @click="saveReceipe" :disabled="writeSuccessful">
           <span v-if="!writeSuccessful">Write now</span>
           <span v-else>Successful!</span>
         </button>
@@ -44,9 +79,13 @@
 <script>
   import {fireDb} from '~/plugins/firebase.js'
   export default {
-
+      layout: 'default',
     data() {
   return {
+      title: "",
+      description: "",
+      ingredient: "",
+      step: "",
     writeSuccessful: false,
     readSuccessful: false,
     deleteSuccessful: false,
@@ -67,8 +106,8 @@
     this.readSuccessful = true
   },
 
-      async writeToFirestore() {
-        const ref = fireDb.collection("receipe").doc("canarde")
+      async saveReceipe() {
+        const ref = fireDb.collection("receipe").doc(this.title)
         const document = {
           text: "Il faut une canarde"
         }
